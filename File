@@ -1,0 +1,17 @@
+- (void)loadWebPayRequest {
+NSURL *url = [NSURL URLWithString:@"http://192.168.34.138:8080/uqserver/alipay/V2/wap/orderInfo.json"];
+
+NSString *params = [NSString string];
+params = [params appendFirstValue:@"abc" forKey:@"encryptedData"];
+params = [params appendOtherValue:kClientType forKey:@"os"];
+//    params = [params appendOtherValue:@"" forKey:@"signedData"];
+NSLog(@"参数%@", params);
+NSMutableURLRequest *mUrlRequest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:NETWORK_TIMEOUT_INTERVAL(1.0)];
+[mUrlRequest setHTTPMethod:@"POST"];
+//    [mUrlRequest setHTTPBody:[self dataWithString:params]];
+[mUrlRequest setHTTPBody:[YFNetworkingUtils dataUTF8EncodedString:params]];
+[mUrlRequest setValue:[UQUtils getHttpAcceptLanguage] forHTTPHeaderField:@"Accept-Language"];
+//    [mUrlRequest addValue:@"application/x-www-form-urlencoded;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+[mUrlRequest setValue:@"application/json;charset=UTF-8" forHTTPHeaderField:@"Content-Type"];
+[self.upayWebView loadRequest:mUrlRequest];
+}

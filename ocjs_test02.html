@@ -1,0 +1,57 @@
+<!DOCTYPE>
+<html>
+    <header>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--         <meta charset="utf-8">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="white">
+        <meta name="viewport" id="viewport" content="initial-scale=1.0,maximum-scale=1,width=device-width,user-scalable=no"> -->
+        <meta charset="utf-8">
+        <meta name="viewport" id="viewport" content="initial-scale=1.0,maximum-scale=1,width=device-width,user-scaleable=no">
+        <title>oc和js交互</title>
+        <script type="text/javascript">
+            //重写系统的alert方法，即可去除在移动端弹出提示时去掉url
+            window.alert = function(name) {
+                var iframe = document.createElement("IFRAME");
+                iframe.style.display="none";
+                iframe.setAttribute("src", 'data:text/plain,');
+                document.documentElement.appendChild(iframe);
+                window.frames[0].window.alert(name);
+                iframe.parentNode.removeChild(iframe);
+            };
+            function showTip() {
+                alert('点击了按钮');
+                showArguments('分享的标题','分享的内容','图片地址');
+            }
+	        function showAlert(message){
+	            alert(message);
+	        }
+	        // 添加事件监听
+			addEventListener('load', function() {
+                // alert('window.onload');
+			    var oP = document.getElementById("localUrl");
+                oP.innerHTML = '当前网页的地址：'+this.location.href;
+			});
+        </script>
+        <style type="text/css">
+            body {
+                font-size: 20px;
+                text-size-adjust:none;
+                -webkit-text-size-adjust:none;
+            }
+            p{
+                /*word-wrap: break-word;*/
+                word-break: break-all;
+            }
+        </style>
+    </header>
+
+    <body>
+        <br/>
+        <button type="button" onclick="showTip()">点击</button>
+        <p id="localUrl"></p>
+        <p>从oc传过来的参数：<span id="ocModifyHtml"></span></p>
+    </body>
+</html>
